@@ -2,7 +2,7 @@
 import setuptools
 
 setuptools.setup(name='iqfeed',
-                 version='0.3',
+                 version='0.4',
                  description='IQFeed / DTN Data downloader',
                  classifiers=[
                              'Development Status :: 4 - Beta',
