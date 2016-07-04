@@ -40,7 +40,11 @@ def __download_historical_data(iqfeed_socket, chunk_size=65535):
         chunk = iqfeed_socket.recv(chunk_size)
 
         if chunk.startswith('E,'):  # Error condition
-            raise Exception(chunk)
+            if chunk.startswith('E,!NO_DATA!'):
+                log.warn('No data available for the given instrument')
+                break
+            else:
+                raise Exception(chunk)
         log.debug('New chunk: %s', " ".join("{:02x}".format(ord(c)) for c in chunk[-1*len(end_msg):]))
 
         buffer_ += chunk
