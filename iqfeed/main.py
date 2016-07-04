@@ -21,8 +21,8 @@
       Tibor Kiss <tibor.kiss@gmail.com> - Copyright (c) 2012-2016 All rights reserved
 
 Usage:
-  iqfeed process-file <filename> <start_year> <end_year> [-d DIR] [-i CON] [-t TZ] [-d]
-  iqfeed download <instrument> <start_year> <end_year> [-d DIR] [-i CON] [-t TZ] [-d]
+  iqfeed process-file <filename> <start_year> <end_year> [-d DIR] [-i CON] [-t TZ] [-D]
+  iqfeed download <instrument> <start_year> <end_year> [-d DIR] [-i CON] [-t TZ] [-D]
   iqfeed -h | --help
 
 Commands:
@@ -33,7 +33,7 @@ Options:
   -d DIR --download-dir DIR   Directory where the files will be downloaded [default: .]
   -i CON --iqfeed CON         IQFeed host & port [default: localhost:9100]
   -t TZ --tz TZ               Time zone [default: US/Eastern]
-  -d                          Debug mode
+  -D                          Debug mode
   -h                          Help screen
 
 Note:
@@ -58,8 +58,8 @@ def main():
 
     log = logging.getLogger()
     log_console = logging.StreamHandler(sys.stdout)
-    log.setLevel(logging.DEBUG if args['-v'] else logging.INFO)
-    log_console.setLevel(logging.DEBUG if args['-v'] else logging.INFO)
+    log.setLevel(logging.DEBUG if args['-D'] else logging.INFO)
+    log_console.setLevel(logging.DEBUG if args['-D'] else logging.INFO)
     log.addHandler(log_console)
 
     if args['download']:
