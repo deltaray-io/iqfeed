@@ -34,9 +34,10 @@ def __download_historical_data(iqfeed_socket, chunk_size=65535):
     The collected data is returned as a string or exception is raised on error
     """
     buffer_ = ""
+    chunk = ""
     end_msg = '\n!ENDMSG!,\r\n'
 
-    while not buffer_.endswith(end_msg):
+    while not chunk.endswith(end_msg):
         chunk = iqfeed_socket.recv(chunk_size)
 
         if chunk.startswith('E,'):  # Error condition
