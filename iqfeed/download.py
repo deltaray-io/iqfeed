@@ -21,6 +21,8 @@ from collections import namedtuple
 from datetime import datetime
 import logging
 
+from backports.functools_lru_cache import lru_cache
+
 from .tools import retry
 
 log = logging.getLogger(__name__)
@@ -59,7 +61,15 @@ def __download_historical_data(iqfeed_socket, chunk_size=65535):
     return buffer_
 
 
-@retry(5, delay=5)
+@lru_cache(maxsize=780000)  # 10 years worth of datetimes
+def __create_datetime(datetime_str, format_str, timezone):
+    # It takes a reasonable amount of time to construct the datetime fields with timezone info.
+    # This function is used to cache the datetime object results.
+    dt = datetime.strptime(datetime_str, format_str)
+    return timezone.localize(dt)
+
+
+@retry(5, delay=2)
 def get_bars(instrument, start_date, end_date, tz, seconds_per_bar,
              iqfeed_host='localhost', iqfeed_port=9100, timeout=5.0):
     """
@@ -99,8 +109,7 @@ def get_bars(instrument, start_date, end_date, tz, seconds_per_bar,
                 raise Exception("Float as a volume, strange...: %s" % line)
 
             log.debug("%s open=%s high=%s low=%s close=%s volumes=%s", datetime_str, high, low, open_, close, volume)
-            dt = datetime.strptime(datetime_str, "%Y-%m-%d %H:%M:%S")
-            dt = tz.localize(dt)
+            dt = __create_datetime(datetime_str, format_str="%Y-%m-%d %H:%M:%S", timezone=tz)
             (open_, high, low, close, volume) = (float(open_), float(high), float(low), float(close), int(volume))
             adj_close = close
 

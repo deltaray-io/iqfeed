@@ -16,6 +16,6 @@ setuptools.setup(name='iqfeed',
                  author_email='tibor.kiss@gmail.com',
                  license='Apache License, Version 2.0',
                  packages=setuptools.find_packages(),
-                 install_requires=['docopt', 'pytz'],
+                 install_requires=['docopt', 'pytz', 'backports.functools_lru_cache'],
                  entry_points={'console_scripts': ['iqfeed = iqfeed.main:main']},
                  zip_safe=False)
