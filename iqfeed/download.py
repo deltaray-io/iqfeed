@@ -90,20 +90,21 @@ def get_bars(instrument, start_date, end_date, tz, seconds_per_bar,
         data = __download_historical_data(iqfeed_socket)
 
     bars = []
-    for line in data.split('\n'):
-        # Returned fields in data are: datetime, high, low, open, close, volume, XXX?, YYYY?
-        (datetime_str, high, low, open_, close, volume, _, _) = line.split(',')
-        if volume.find('.') != -1:
-            raise Exception("Float as a volume, strange...: %s" % line)
+    if len(data):
+        for line in data.split('\n'):
+            # Returned fields in data are: datetime, high, low, open, close, volume, XXX?, YYYY?
+            (datetime_str, high, low, open_, close, volume, _, _) = line.split(',')
+            if volume.find('.') != -1:
+                raise Exception("Float as a volume, strange...: %s" % line)
 
-        log.debug("%s open=%s high=%s low=%s close=%s volumes=%s", datetime_str, high, low, open_, close, volume)
-        dt = datetime.strptime(datetime_str, "%Y-%m-%d %H:%M:%S")
-        dt = tz.localize(dt)
-        (open_, high, low, close, volume) = (float(open_), float(high), float(low), float(close), int(volume))
-        adj_close = close
+            log.debug("%s open=%s high=%s low=%s close=%s volumes=%s", datetime_str, high, low, open_, close, volume)
+            dt = datetime.strptime(datetime_str, "%Y-%m-%d %H:%M:%S")
+            dt = tz.localize(dt)
+            (open_, high, low, close, volume) = (float(open_), float(high), float(low), float(close), int(volume))
+            adj_close = close
 
-        bar = Bar(dt, float(open_), float(high), float(low), float(close), int(volume), float(adj_close))
-        bars.append(bar)
+            bar = Bar(dt, float(open_), float(high), float(low), float(close), int(volume), float(adj_close))
+            bars.append(bar)
 
     log.debug("Returning %d bars", len(bars))
 

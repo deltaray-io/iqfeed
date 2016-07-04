@@ -91,7 +91,8 @@ def main():
                     log.info('Downloading to %s', filename)
 
                 bars = get_bars(instrument, start_date, end_date, tz, seconds_per_bar, iqfeed_host, iqfeed_port)
-                write_bars_to_file(bars, filename, tz)
+                if len(bars):
+                    write_bars_to_file(bars, filename, tz)
 
         except Exception as e:
             log.error('Exception during download, continuing', exc_info=e)
