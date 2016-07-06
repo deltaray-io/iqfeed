@@ -1,9 +1,14 @@
 #
 import setuptools
 
+import pypandoc
+
+long_description = pypandoc.convert('README.md', 'rst')
+
 setuptools.setup(name='iqfeed',
                  version='0.4',
                  description='IQFeed / DTN Data downloader',
+                 long_description=long_description,
                  classifiers=[
                              'Development Status :: 4 - Beta',
                              'License :: OSI Approved :: Apache Software License',
