@@ -16,7 +16,7 @@ setuptools.setup(name='iqfeed',
                              'Topic :: Office/Business :: Financial :: Investment',
 
                  ],
-                 url='http://github.com/tibkiss/iqfeed-dl',
+                 url='http://github.com/tibkiss/iqfeed',
                  author='Tibor Kiss',
                  author_email='tibor.kiss@gmail.com',
                  license='Apache License, Version 2.0',
