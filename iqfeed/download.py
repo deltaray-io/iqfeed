@@ -27,7 +27,7 @@ from .tools import retry
 
 log = logging.getLogger(__name__)
 
-Bar = namedtuple('IQFeedBar', ['datetime', 'open', 'high', 'low', 'close', 'volume', 'adj_close'])
+Bar = namedtuple('IQFeedBar', ['datetime', 'open', 'high', 'low', 'close', 'volume'])
 
 
 def __download_historical_data(iqfeed_socket, chunk_size=65535):
@@ -111,9 +111,8 @@ def get_bars(instrument, start_date, end_date, tz, seconds_per_bar,
             log.debug("%s open=%s high=%s low=%s close=%s volumes=%s", datetime_str, high, low, open_, close, volume)
             dt = __create_datetime(datetime_str, format_str="%Y-%m-%d %H:%M:%S", timezone=tz)
             (open_, high, low, close, volume) = (float(open_), float(high), float(low), float(close), int(volume))
-            adj_close = close
 
-            bar = Bar(dt, float(open_), float(high), float(low), float(close), int(volume), float(adj_close))
+            bar = Bar(dt, float(open_), float(high), float(low), float(close), int(volume))
             bars.append(bar)
 
     log.debug("Returning %d bars", len(bars))

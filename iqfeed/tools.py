@@ -60,7 +60,6 @@ def write_bars_to_file(bars, filename, tz):
              'High':	  bar.high,
              'Low':	      bar.low,
              'Close':	  bar.close,
-             'Adj Close': bar.adj_close,
              'Volume':	  bar.volume,
              } for bar in bars]
 
@@ -70,7 +69,8 @@ def write_bars_to_file(bars, filename, tz):
     fd = os.popen("gzip > %s" % filename, 'w') if filename.endswith('.gz') else open(filename, 'w')
 
     with fd:
-        csv_writer = csv.DictWriter(fd, ['DateTime', 'Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume'])
+        csv_writer = csv.DictWriter(fd, ['DateTime', 'Open', 'High', 'Low', 'Close', 'Volume'])
+        csv_writer.writeheader()
         csv_writer.writerows(rows)
 
 
