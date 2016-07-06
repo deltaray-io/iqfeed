@@ -48,6 +48,7 @@ Date format for end_date and start_date: YYYYMMDD
 
 
 ## Usage from Python
+Use the following snippet to obtain list of Bar objects.
 ```python
 import pytz
 from iqfeed import get_bars
@@ -61,6 +62,11 @@ iqfeed_host = 'localhost'
 iqfeed_port = 9100
 
 bars = get_bars(instrument, start_date, end_date, tz, seconds_per_bar, iqfeed_host, iqfeed_port)
+```
+
+The Bar object is a named tuple which holds the Open, High, Low, Close and Volume values for the given time:
+```python
+IQFeedBar(datetime=datetime.datetime(2015, 1, 2, 9, 30, tzinfo=<DstTzInfo 'US/Eastern' EST-1 day, 19:00:00 STD>), open=112.46, high=112.46, low=112.45, close=112.46, volume=192104)
 ```
 
 ## License
