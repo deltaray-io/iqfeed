@@ -1,12 +1,15 @@
 #
 import setuptools
 
-import pypandoc
+try:
+    import pypandoc
+    long_description = pypandoc.convert('README.md', 'rst')
+except(IOError, ImportError):
+    long_description = open('README.md').read()
 
-long_description = pypandoc.convert('README.md', 'rst')
 
 setuptools.setup(name='iqfeed',
-                 version='0.4',
+                 version='0.4.2',
                  description='IQFeed / DTN Data downloader',
                  long_description=long_description,
                  classifiers=[
