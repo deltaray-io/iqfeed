@@ -1,15 +1,19 @@
-#
 import setuptools
+import os
+
+project_url = 'http://github.com/tibkiss/iqfeed'
 
 try:
     import pypandoc
     long_description = pypandoc.convert('README.md', 'rst')
 except(IOError, ImportError):
-    long_description = open('README.md').read()
-
+    if os.path.exists('README.md'):
+        long_description = open('README.md').read()
+    else:
+        long_description = 'IQFeed / DTN Data downloader. See details at: %s' % project_url
 
 setuptools.setup(name='iqfeed',
-                 version='0.4.2',
+                 version='0.4.3',
                  description='IQFeed / DTN Data downloader',
                  long_description=long_description,
                  classifiers=[
@@ -19,7 +23,7 @@ setuptools.setup(name='iqfeed',
                              'Topic :: Office/Business :: Financial :: Investment',
 
                  ],
-                 url='http://github.com/tibkiss/iqfeed',
+                 url=project_url,
                  author='Tibor Kiss',
                  author_email='tibor.kiss@gmail.com',
                  license='Apache License, Version 2.0',
