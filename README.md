@@ -1,3 +1,4 @@
+[![PyPI version](https://badge.fury.io/py/iqfeed.svg)](https://badge.fury.io/py/iqfeed)
 # IQFeed/DTN Downloader
 This project provides command line tool and Python library to access DTN / IQFeed's historical data for equities. The provided command line tool ('iqfeed') is capable downloading 1 minute historical data from IQFeed client and store it in '.csv.gz' format.
 
