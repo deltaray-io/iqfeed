@@ -76,23 +76,22 @@ def main():
     seconds_per_bar = 60  # 1M data
 
     for (i, instrument) in enumerate(instruments):
-        try:
-            log.info("Processing %s (%d out of %d)", instrument, i+1, len(instruments))
+        log.info("Processing %s (%d out of %d)", instrument, i+1, len(instruments))
 
-            for year in range(start_year, end_year+1):
-                filename = '%s/HC-%s-1M-%d-iqfeed.csv.gz' % (download_dir, instrument, year)
-                start_date = '%s0101' % year
-                end_date = '%s1231' % year
+        for year in range(start_year, end_year+1):
+            filename = '%s/HC-%s-1M-%d-iqfeed.csv.gz' % (download_dir, instrument, year)
+            start_date = '%s0101' % year
+            end_date = '%s1231' % year
 
-                if os.path.exists(filename):
-                    log.info('File already exists: %s', filename)
-                    continue
-                else:
-                    log.info('Downloading to %s', filename)
+            if os.path.exists(filename):
+                log.info('File already exists: %s', filename)
+                continue
+            else:
+                log.info('Downloading to %s', filename)
 
+            try:
                 bars = get_bars(instrument, start_date, end_date, tz, seconds_per_bar, iqfeed_host, iqfeed_port)
                 if len(bars):
                     write_bars_to_file(bars, filename, tz)
-
-        except Exception as e:
-            log.error('Exception during download, continuing', exc_info=e)
+            except Exception as e:
+                log.error('Exception during download, continuing', exc_info=e)
