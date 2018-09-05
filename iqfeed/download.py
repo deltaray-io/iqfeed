@@ -30,7 +30,7 @@ log = logging.getLogger(__name__)
 Bar = namedtuple('IQFeedBar', ['datetime', 'open', 'high', 'low', 'close', 'volume'])
 
 
-def __download_historical_data(iqfeed_socket, chunk_size=65535):
+def __download_historical_data(iqfeed_socket, chunk_size=4096):
     """
     Read the data from iqfeed_socket with the given chunk size.
     The collected data is returned as a string or exception is raised on error
