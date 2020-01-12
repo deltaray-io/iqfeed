@@ -40,7 +40,7 @@ def __download_historical_data(iqfeed_socket, chunk_size=4096):
     end_msg = '\n!ENDMSG!,\r\n'
 
     while not chunk.endswith(end_msg):
-        chunk = iqfeed_socket.recv(chunk_size)
+        chunk = iqfeed_socket.recv(chunk_size).decode()
 
         if chunk.startswith('E,'):  # Error condition
             if chunk.startswith('E,!NO_DATA!'):
@@ -87,10 +87,11 @@ def get_bars(instrument, start_date, end_date, tz, seconds_per_bar,
     # Source: https://github.com/bwlewis/iqfeed/blob/master/man/HIT.Rd
     begin_time_filter = '092900'
     end_time_filter = '155900'
-    historical_data_request = "HIT,%s,%s,%s,%s,,%s,%s,1\n" % (instrument, seconds_per_bar, start_date, end_date,
+    historical_data_request_str = "HIT,{},{},{},{},,{},{},1\n".format(instrument, seconds_per_bar, start_date, end_date,
                                                               begin_time_filter, end_time_filter)
+    historical_data_request = historical_data_request_str.encode()
 
-    log.debug("IQFeed historical data request: %s", historical_data_request.rstrip())
+    log.debug("IQFeed historical data request: %s", historical_data_request_str.rstrip())
 
     # Open a streaming socket to the IQFeed daemon
     with contextlib.closing(socket.create_connection((iqfeed_host, iqfeed_port))) as iqfeed_socket:
