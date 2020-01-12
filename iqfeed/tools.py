@@ -39,10 +39,10 @@ def retry(tries, exceptions=None, delay=0):
     def _retry(fn):
         @wraps(fn)
         def __retry(*args, **kwargs):
-            for _ in xrange(tries+1):
+            for _ in range(tries+1):
                 try:
                     return fn(*args, **kwargs)
-                except exceptions_, e:
+                except exceptions_ as e:
                     log.warning("Exception, retrying...", exc_info=e)
                     time.sleep(delay)
             raise # If no success after tries raise last exception
